@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MindCare - Student Mental Health</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#263238}
+header{background:#6c63ff;color:white;padding:28px 18px;text-align:center}
+header h1{margin:0 0 8px;font-size:32px}
+header p{margin:0;font-size:16px}
+nav{background:white;padding:12px;text-align:center;position:sticky;top:0;z-index:5;box-shadow:0 2px 8px #0001}
+nav a{color:#4b45b2;text-decoration:none;margin:0 9px;font-weight:bold;font-size:14px}
+section{max-width:900px;margin:24px auto;padding:24px;background:white;border-radius:18px;box-shadow:0 4px 18px #00000012}
+h2{color:#4b45b2;margin-top:0}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.card{padding:18px;border-radius:14px;background:#f0efff}
+.moods{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+.mood{border:2px solid #ddd;background:white;border-radius:14px;padding:16px 8px;font-size:17px;cursor:pointer;transition:.2s}
+.mood:hover{transform:translateY(-2px);border-color:#6c63ff}
+.mood span{display:block;font-size:38px;margin-bottom:6px}
+#response{display:none;margin-top:20px;padding:20px;border-radius:14px;background:#eef8f1;border-left:5px solid #45a36b}
+#response h3{margin-top:0;color:#277348}
+.tip{font-weight:bold}
+footer{text-align:center;padding:25px;background:#25233b;color:white;margin-top:30px}
+button{font:inherit}
+@media(max-width:600px){.moods{grid-template-columns:repeat(2,1fr)}section{margin:16px 10px;padding:18px}nav a{display:inline-block;margin:5px}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>💜 MindCare</h1>
+  <p>Student Mental Health & Well-Being Support</p>
+</header>
+
+<nav>
+  <a href="#about">About</a>
+  <a href="#problem">Problem</a>
+  <a href="#tracker">Mood Tracker</a>
+  <a href="#tips">Tips</a>
+</nav>
+
+<section id="about">
+  <h2>Community Introduction</h2>
+  <p>Students face academic pressure, deadlines, exams, friendship issues and uncertainty about the future. MindCare is a simple student-friendly website that encourages students to notice their feelings and take a small positive step.</p>
+</section>
+
+<section id="problem">
+  <h2>Problem Statement</h2>
+  <p>Many students experience stress, sadness, anxiety or anger but may not know how to express their feelings or where to start. MindCare provides an easy and supportive first step through mood tracking and positive guidance.</p>
+</section>
+
+<section id="tracker">
+  <h2>🌈 How are you feeling today?</h2>
+  <p>Select one mood. Your response will appear immediately below.</p>
+
+  <div class="moods">
+    <button class="mood" type="button" data-mood="happy"><span>😄</span>Happy</button>
+    <button class="mood" type="button" data-mood="good"><span>🙂</span>Good</button>
+    <button class="mood" type="button" data-mood="okay"><span>😐</span>Okay</button>
+    <button class="mood" type="button" data-mood="sad"><span>😔</span>Sad</button>
+    <button class="mood" type="button" data-mood="stressed"><span>😰</span>Stressed</button>
+    <button class="mood" type="button" data-mood="angry"><span>😡</span>Angry</button>
+  </div>
+
+  <div id="response" aria-live="polite">
+    <h3 id="responseTitle"></h3>
+    <p id="responseText"></p>
+    <p class="tip" id="responseTip"></p>
+  </div>
+</section>
+
+<section id="tips">
+  <h2>💡 Small Things That Can Help</h2>
+  <div class="cards">
+    <div class="card"><h3>🫁 Take a pause</h3><p>Take a few slow breaths and give yourself a short break.</p></div>
+    <div class="card"><h3>📚 Study smart</h3><p>Break large tasks into smaller, manageable goals.</p></div>
+    <div class="card"><h3>💬 Talk to someone</h3><p>Share your feelings with a trusted friend, teacher or family member.</p></div>
+    <div class="card"><h3>🌱 Be kind to yourself</h3><p>A difficult day does not define your ability or your future.</p></div>
+  </div>
+</section>
+
+<footer>
+  <p>💜 MindCare — You matter.</p>
+  <p>Study is important, but you are more important.</p>
+</footer>
+
+<script>
+const responses = {
+  happy: {
+    title: "😄 That's wonderful!",
+    text: "Enjoy this positive moment and let yourself celebrate the little things.",
+    tip: "✨ Keep spreading your positive energy!"
+  },
+  good: {
+    title: "🙂 Glad you're doing good!",
+    text: "Keep going at your own pace. Small positive moments matter.",
+    tip: "🌷 Take a moment to appreciate yourself today."
+  },
+  okay: {
+    title: "😐 It's okay to feel just okay.",
+    text: "You don't have to be happy all the time. Give yourself some space and be gentle with yourself.",
+    tip: "💜 Do one small thing today that makes you feel comfortable."
+  },
+  sad: {
+    title: "😔 It's okay to feel sad.",
+    text: "Your feelings are valid. You don't have to handle everything alone.",
+    tip: "💬 Talk to someone you trust and give yourself time."
+  },
+  stressed: {
+    title: "😰 Take a breath. You've got this.",
+    text: "When everything feels too much, pause and focus on one small task at a time.",
+    tip: "🫁 Try 5 slow breaths, then take a short break."
+  },
+  angry: {
+    title: "😡 It's okay to feel angry.",
+    text: "Give yourself a moment before reacting. Step away, breathe, and let the intensity come down.",
+    tip: "🌿 Take a short walk or some quiet time before making a decision."
+  }
+};
+
+document.querySelectorAll(".mood").forEach(function(button){
+  button.addEventListener("click", function(){
+    const mood = this.dataset.mood;
+    const data = responses[mood];
+
+    document.getElementById("responseTitle").textContent = data.title;
+    document.getElementById("responseText").textContent = data.text;
+    document.getElementById("responseTip").textContent = data.tip;
+
+    const response = document.getElementById("response");
+    response.style.display = "block";
+    response.scrollIntoView({behavior:"smooth", block:"nearest"});
+  });
+});
+</script>
+
+</body>
+</html>
